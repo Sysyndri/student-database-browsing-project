@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+{% block title %} База данных {{ title }} {% endblock %}
+
+{% block back%}
+    <a class="link_back" href="/">Назад</a>
+{% endblock %}
+
+{% block content %}
+
+    <p>Количество таблиц: {{ count_table }} </p>
+    <p>Структура базы данных: {{ db_name }}</p>
+    <ol>
+        {% for base in database %}
+        <li class="link_li"><a href="{{ url_for(endpoint='show_tables', db_name=db_name, table_name=base) }}">{{base}}</a></li>
+        {% endfor %}
+    </ol>
+
+{% endblock %}

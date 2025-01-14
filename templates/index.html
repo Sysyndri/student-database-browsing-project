@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %} {{ title }} {% endblock %}
+
+{% block content %}
+    <p>Базы данных:</p>
+    <ol>
+        {% for base in database %}
+        <li class="link_li"><a href="{{ url_for(endpoint='show', db_name=base) }}">{{base}}</a></li>
+        {% endfor %}
+    </ol>
+{% endblock %}

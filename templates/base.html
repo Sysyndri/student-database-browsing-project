@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block link %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+
+</head>
+<body class="body">
+    {% if request.url_rule.endpoint != 'index'%}
+        <a class="btn_link" href="{{ url_for('index') }}">
+            <button class="btn">Главная страница</button>
+        </a>
+        {% block back %}{% endblock %}
+    {% endif %}
+    {% block content %} {% endblock %}
+
+
+</body>
+</html>

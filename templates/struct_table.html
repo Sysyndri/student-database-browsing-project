@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block link %} <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}"> {% endblock %}
+{% block title %} Структура таблицы {{ title }} {% endblock %}
+
+{% block back%}
+    <a class="link_back" href="{{ url_for(endpoint='show', db_name=db_name) }}">Назад</a>
+{% endblock %}
+
+{% block content %}
+    <table>
+    <caption>Структура таблицы {{ table_name }}</caption>
+    <thead>
+
+        <tr>
+            <th> Поле </th>
+            <th> Тип </th>
+            <th> NULL </th>
+            <th> Ключ </th>
+            <th> По умолчанию </th>
+            <th> Дополнительно </th>
+            <th> Минимальное значение </th>
+            <th> Максимальное значение </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for line in range(count_date) %}
+            <tr>
+                {% for dat in date[line: line + 1] %}
+                    {% for mean in dat %}
+                        <td>{{ mean }}</td>
+                    {% endfor %}
+                    {% for count in mn[line: line + 1] %}
+                        <td>{{ count[0] }}</td>
+                    {% endfor %}
+                    {% for count in mx[line: line + 1] %}
+                        <td> {{ count[0] }}</td>
+                    {% endfor %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for(endpoint='show_table', db_name=db_name, table_name=table_name) }}"><button class="btn_struct">
+    Показать данные
+    </button>
+</a>
+
+{% endblock %}

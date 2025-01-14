@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block link %} <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}"> {% endblock %}
+
+{% block title %} Таблица {{ title }} {% endblock %}
+
+{% block back%}
+    <a class="link_back" href="{{ url_for(endpoint='show_tables', db_name=db_name, table_name=table_name)}}">Назад</a>
+{% endblock %}
+
+{% block content %}
+
+{% if count_date != 0 %}
+    <table>
+        <caption>Структура таблицы {{ table_name }}</caption>
+        <thead>
+            <tr>
+                {% for head in database %}
+                    <th> {{ head }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for line in range(count_date) %}
+                <tr>
+                    {% for dat in date[line: line + 1] %}
+                        {% for mean in dat %}
+                            <td>{{ mean }}</td>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Данные в таблице отсутствуют.</p>
+    <h1>Структура таблицы: </h1>
+    <ol>
+        {% for dat in database %}
+            <li class="table_li">{{ dat }}</li>
+        {% endfor %}
+    </ol>
+{% endif %}
+
+<div class="pagination">
+    {% if page > 1 %}
+        <a class="back" href="{{ url_for('show_table', db_name=db_name, table_name=table_name, page=page-1,
+         per_page=per_page) }}">Назад</a>
+    {% endif %}
+    Страница {{ page }} из {{ total_page }}
+    {% if page < total_page %}
+        <a class="next" href="{{ url_for('show_table', db_name=db_name, table_name=table_name, page=page+1,
+         per_page=per_page) }}">Вперед</a>
+    {% endif %}
+    <form method="get" action="{{ url_for('show_table', db_name=db_name, table_name=table_name) }}"
+          class="page_one_select">
+        <label class="str" for="page_one">Записей на странице:</label>
+        <select class="select" name="page_one" id="page_one" onchange="this.form.submit()">
+            <option value="25" {% if page_one == 25 %} selected {% endif %}>25</option>
+            <option value="50" {% if page_one == 50 %} selected {% endif %}>50</option>
+            <option value="100" {% if page_one == 100 %} selected {% endif %}>100</option>
+            <option value="250" {% if page_one == 250 %} selected {% endif %}>250</option>
+            <option value="500" {% if page_one == 500 %} selected {% endif %}>500</option>
+        </select>
+    </form>
+</div>
+
+{% endblock %}
